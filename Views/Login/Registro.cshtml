@@ -1,0 +1,240 @@
+﻿@model Front_Login.Models.LoginRequest
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+        }
+
+        .login-header {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+            .login-header h1 {
+                font-size: 1.75rem;
+                color: #333;
+                margin-bottom: 0.5rem;
+            }
+
+            .login-header p {
+                color: #666;
+                font-size: 0.875rem;
+            }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+            input:focus {
+                outline: none;
+                border-color: #4f46e5;
+                box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.1);
+            }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            font-size: 0.875rem;
+            color: #4f46e5;
+            text-decoration: none;
+            margin-top: 0.5rem;
+        }
+
+            .forgot-password:hover {
+                text-decoration: underline;
+            }
+
+        .login-button {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+            .login-button:hover {
+                background-color: #4338ca;
+            }
+
+            .login-button:disabled {
+                background-color: #a5a5a5;
+                cursor: not-allowed;
+            }
+
+        .signup-link {
+            margin-top: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #666;
+        }
+
+            .signup-link a {
+                color: #4f46e5;
+                text-decoration: none;
+            }
+
+                .signup-link a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <main class="login-container">
+        <div class="login-header">
+            <h1>Registro    </h1>
+            <p>Por favor ingrese sus datos</p>
+        </div>
+
+        @if (TempData["Error"] != null)
+        {
+            <div style="background-color: #f8d7da; color:#842029; border:1px solid #f5c2c7; padding:10px; border-radius:5px; margin-bottom:10px;">
+                <strong>Error:</strong> @TempData["Error"]
+            </div>
+        }
+
+
+        <div class="container mt-5" style="max-width: 450px;">
+            <h2 class="text-center mb-4">Registrar Usuario</h2>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+            <form id="formRegistro">
+
+                <div class="form-group mb-3">
+                    <label for="NombreUsuario">Nombre</label>
+                    <input id="NombreUsuario" name="NombreUsuario" class="form-control" placeholder="García López" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="Telefono">Teléfono</label>
+                    <input id="Telefono" name="Telefono" class="form-control" placeholder="0987654321" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label for="EmailUsuario">Usuario</label>
+                    <input id="EmailUsuario" name="EmailUsuario" class="form-control" placeholder="javier@gmail.com" />
+                </div>
+
+                <div class="form-group mb-4">
+                    <label for="Contrasena">Contraseña</label>
+                    <input id="Contrasena" name="Contrasena" type="password" class="form-control" placeholder="********" />
+                </div>
+
+                <td class="form-group mb-4">
+                    <button type="button" class="login-button" onclick="registrarUsuario()">Guardar Usuario</button>
+                </td>
+
+
+                <td class="signup-link">
+                    <a asp-controller="Login" asp-action="Index" class="nav-link text-dark">
+                        @* ¿No tienes cuenta? <a href="">Regístrate</a> *@
+                        Volver
+                    </a>
+                </td>
+            </form>
+
+
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+    async function registrarUsuario() {
+
+        const data = {
+            NombreUsuario: document.getElementById("NombreUsuario").value,
+            Telefono: document.getElementById("Telefono").value,
+            EmailUsuario: document.getElementById("EmailUsuario").value,
+            Contrasena: document.getElementById("Contrasena").value
+             // userUsuario: document.getElementById("UserUsuario ").vale,
+        };
+
+        const response = await fetch('/Login/Guardar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (result.ok) {
+            alert(" Usuario guardado correctamente");
+            document.getElementById("formRegistro").reset();
+        } else {
+            alert("❌ Error: " + result.mensaje);
+        }
+    }
+</script>

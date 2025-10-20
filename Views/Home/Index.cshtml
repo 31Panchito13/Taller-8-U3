@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5 text-center">
+    <h2>Bienvenido @ViewBag.NombreCompleto </h2>
+    <p class="lead">Has iniciado sesión correctamente.</p>
+
+    <a class="btn btn-danger mt-3" asp-controller="Login" asp-action="Index">Cerrar sesión</a>
+</div>

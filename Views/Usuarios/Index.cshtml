@@ -1,0 +1,60 @@
+﻿@model List<Front_Login.Models.Usuario>
+
+<h2>Usuarios</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombres</th>
+            <th>Telefono</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var usuario in Model)
+        {
+            <tr>
+                <td>@usuario.IdUsuario</td>
+                <td>@(usuario.NombreUsuario ?? "N/A")</td>
+                <td>@(usuario.Telefono)</td>
+                <td>@(usuario.EmailUsuario ?? "N/A")</td>
+                @* <td>@(usuario.Estado ?? "N/A")</td> *@
+
+                <td>
+                    <a asp-action="Detalle" asp-route-id="@usuario.IdUsuario" class="btn btn-primary btn-sm">
+                        Editar
+                    </a>
+                    <button class="btn btn-danger btn-sm" onclick="eliminarUsuario(@usuario.IdUsuario, this)">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    async function eliminarUsuario(id, boton) {
+        if (!confirm('¿Seguro que quieres eliminar este usuario?')) return;
+
+        try {
+               const response = await fetch(`/Usuarios/Eliminar/${id}`, {
+        method: 'DELETE'
+    });
+
+
+            if (response.ok) {
+                // Eliminar la fila correspondiente
+                const fila = boton.closest('tr');
+                if (fila) fila.remove();
+                alert('Usuario eliminado correctamente');
+            } else {
+                const error = await response.text();
+                alert('Error al eliminar: ' + error);
+            }
+        } catch (err) {
+            alert('Error en la conexión: ' + err);
+        }
+    }
+</script>

@@ -1,0 +1,152 @@
+﻿@model Front_Login.Models.Usuario
+
+<h2>Usuario</h2>
+<h2>@Model.NombreUsuario</h2>
+
+<!-- Agrega estos mensajes de alerta -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<style>
+    #client-button {
+        background-color: blue;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+        #client-button:hover {
+            background-color: darkblue;
+        }
+
+    .btn-cancel {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+        .btn-cancel:hover {
+            background-color: #545b62;
+            color: white;
+            text-decoration: none;
+        }
+</style>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            <tr>
+                <td>@Model.IdUsuario</td>
+                <td>@(Model.NombreUsuario ?? "N/A")</td>
+                <td>@(Model.Telefono)</td>
+                <td>@(Model.EmailUsuario ?? "N/A")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Editar Usuario</h2>
+
+
+
+<form method="post" asp-action="Editar">
+    <input type="hidden" asp-for="IdUsuario" />
+
+    <div class="form-group">
+        <label>ID (debug):</label>
+        <input asp-for="IdUsuario" class="form-control" readonly />
+    </div>
+
+    <div class="form-group">
+        <label>Nombre:</label>
+        <input asp-for="NombreUsuario" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Email:</label>
+        <input asp-for="EmailUsuario" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Teléfono:</label>
+        <input asp-for="Telefono" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label>Contraseña:</label>
+        <input asp-for="Contrasena" class="form-control" />
+    </div>
+    <br />
+    <button type="button" id="client-button" onclick="editarUsuario()">Guardar Cambios</button> <br>
+</form>
+
+<!-- Mostrar todos los valores del modelo -->
+<div style="margin-top: 20px; background-color: #f8f9fa; padding: 15px;">
+    <h4>Debug - Valores del Modelo:</h4>
+    <p><strong>IdUsuario:</strong> @Model.IdUsuario</p>
+    <p><strong>NombreUsuario:</strong> @Model.NombreUsuario</p>
+    <p><strong>EmailUsuario:</strong> @Model.EmailUsuario</p>
+    <p><strong>Telefono:</strong> @Model.Telefono</p>
+    <p><strong>Contrasena:</strong> @(string.IsNullOrEmpty(Model.Contrasena) ? "Vacía" : "******")</p>
+</div>
+<script>
+
+    async function editarUsuario() {
+        const usuario = {
+            idUsuario: document.getElementById("IdUsuario").value,
+            nombreUsuario: document.getElementById("NombreUsuario").value,
+            emailUsuario: document.getElementById("EmailUsuario").value,
+            telefono: document.getElementById("Telefono").value,
+            contrasena: document.getElementById("Contrasena").value
+        };
+
+        try {
+            const response = await fetch('/Usuarios/Editar', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(usuario)
+            });
+
+            if (response.ok) {
+                const mensaje = await response.text();
+                alert(mensaje);
+                window.location.href = '/Usuarios'; // Redirige al listado
+            } else {
+                const error = await response.text();
+                alert('Error al actualizar: ' + error);
+            }
+        } catch (error) {
+            alert('Error de conexión: ' + error);
+        }
+    }
+</script>
