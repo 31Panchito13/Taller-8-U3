@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Front_Login.Models.Producto>
+
+@{
+    ViewData["Title"] = "Listado de Productos";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📦 Listado de Productos</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <div>
+        <main>
+            <form asp-controller="Producto" asp-action="ReProducto" method="post">
+                <div class="form-group mb-4">
+                    <a asp-controller="Producto" asp-action="ReProducto" class="btn btn-primary">
+                        Agregar Producto
+                    </a>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <table class="table table-hover table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Estado</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.IdProducto</td>
+                        <td>@p.NomProducto</td>
+                        <td>@p.DcProducto</td>
+                        <td>@p.EsProducto</td>
+                        <td>@p.PreProducto</td>
+                        <td>@p.StockProducto</td>
+                      <td>@p.Categoria?.NomCategoria</td>
+                       <td>
+                            <a asp-action="Detalle" asp-route-id="@p.IdProducto" class="btn btn-primary btn-sm">
+                                Editar
+                            </a>
+
+                       <a asp-controller="Producto"
+                       asp-action="Eliminar"
+                       asp-route-id="@p.IdProducto"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Deseas eliminar este producto?');">
+                        🗑️ Eliminar
+                    </a>
+
+
+                </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-muted">No hay productos disponibles.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Front_Login.Models.Categoria>
+
+@{
+    ViewData["Title"] = "Listado de la Categoria";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"> Listado de Categoria</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <table class="table table-hover table-bordered text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.IdCategoria</td>
+                        <td>@p.NomCategoria</td>
+                        <td>@p.EstadoCategoria</td>
+                        <td>
+                            <a asp-action="Detalle" asp-route-id="@p.IdCategoria" class="btn btn-primary btn-sm">
+                                Editar
+                            </a>
+
+                            <a asp-controller="Categoria"
+                               asp-action="Eliminar"
+                               asp-route-id="@p.IdCategoria"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Deseas eliminar esta   Categoria?');">
+                                🗑️ Eliminar
+                            </a>
+
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-muted">No hay productos disponibles.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
