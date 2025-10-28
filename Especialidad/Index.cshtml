@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Front_Login.Models.Especialidad>
+
+@{
+    ViewData["Title"] = "Listado de Especialidades";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📋 Listado de Especialidades</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="text-end mb-3">
+        <a asp-controller="Especialidad" asp-action="Crear" class="btn btn-primary">
+            ➕ Nueva Especialidad
+        </a>
+    </div>
+
+    <table class="table table-hover table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var e in Model)
+                {
+                    <tr>
+                        <td>@e.IdCategoria</td>
+                        <td>@e.NomCategoria</td>
+                        <td>@e.EstadoCategoria</td>
+                        <td>
+                            <a asp-controller="Especialidad"
+                               asp-action="Editar"
+                               asp-route-id="@e.IdCategoria"
+                               class="btn btn-warning btn-sm">
+                                ✏️ Editar
+                            </a>
+
+                            <a asp-controller="Especialidad"
+                               asp-action="Eliminar"
+                               asp-route-id="@e.IdCategoria"
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('¿Deseas eliminar esta especialidad?');">
+                                🗑️ Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="4" class="text-muted">No hay especialidades registradas.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

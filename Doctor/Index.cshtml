@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Front_Login.Models.Doctor>
+
+@{
+    ViewData["Title"] = "Lista de Doctores";
+}
+
+<h2 class="text-center mt-3">Lista de Doctores</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+<div class="text-end mb-3">
+    <a class="btn btn-primary" asp-action="Crear">➕ Nuevo Doctor</a>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Edad</th>
+            <th>Estado</th>
+            <th>Especialidad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.Any())
+        {
+            <tr><td colspan="8" class="text-center">No hay doctores registrados</td></tr>
+        }
+        else
+        {
+            foreach (var doctor in Model)
+            {
+                <tr>
+                    <td>@doctor.IdDoctor</td>
+                    <td>@doctor.NomDoctor</td>
+                    <td>@doctor.ApellidosDoctor</td>
+                    <td>@doctor.emailDoctor</td>
+                    <td>@doctor.edadDoctor</td>
+                    <td>@doctor.estadoDoctor</td>
+                    <td>@doctor.fkIdEspecialidad?.NomCategoria</td>
+                    <td>
+                        <a asp-action="Editar" asp-route-id="@doctor.IdDoctor" class="btn btn-warning btn-sm">✏️ Editar</a>
+
+                        <a asp-action="Detalle" asp-route-id="@doctor.IdDoctor" class="btn btn-info btn-sm">👁 Ver</a>
+                        <a asp-action="Eliminar" asp-route-id="@doctor.IdDoctor" class="btn btn-danger btn-sm">🗑 Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

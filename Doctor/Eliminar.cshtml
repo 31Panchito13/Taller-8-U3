@@ -1,0 +1,17 @@
+﻿@model Front_Login.Models.Doctor
+
+@{
+    ViewData["Title"] = "Eliminar Doctor";
+}
+
+<h2 class="text-center text-danger mt-3">¿Eliminar Doctor?</h2>
+
+<div class="alert alert-warning text-center w-50 mx-auto">
+    <p>¿Está seguro de eliminar al doctor <strong>@Model.NomDoctor @Model.ApellidosDoctor</strong>?</p>
+</div>
+
+<form asp-action="Eliminar" method="post" class="text-center">
+    <input type="hidden" asp-for="IdDoctor" />
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

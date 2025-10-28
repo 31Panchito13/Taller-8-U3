@@ -1,0 +1,21 @@
+﻿@model Front_Login.Models.Doctor
+
+@{
+    ViewData["Title"] = "Detalle del Doctor";
+}
+
+<h2 class="text-center mt-3">Detalle del Doctor</h2>
+
+<table class="table table-bordered w-50 mx-auto mt-3">
+    <tr><th>ID</th><td>@Model.IdDoctor</td></tr>
+    <tr><th>Nombre</th><td>@Model.NomDoctor</td></tr>
+    <tr><th>Apellidos</th><td>@Model.ApellidosDoctor</td></tr>
+    <tr><th>Email</th><td>@Model.emailDoctor</td></tr>
+    <tr><th>Edad</th><td>@Model.edadDoctor</td></tr>
+    <tr><th>Estado</th><td>@Model.estadoDoctor</td></tr>
+    <tr><th>Especialidad</th><td>@Model.fkIdEspecialidad?.NomCategoria</td></tr>
+</table>
+
+<div class="text-center">
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</div>

@@ -1,0 +1,33 @@
+﻿@model Front_Login.Models.Especialidad
+
+@{
+    ViewData["Title"] = "Editar Especialidad";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">✏️ Editar Especialidad</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <form asp-action="Editar" method="post">
+        <input type="hidden" asp-for="IdCategoria" />
+
+        <div class="form-group mb-3">
+            <label>Nombre de la Especialidad</label>
+            <input asp-for="NomCategoria" class="form-control" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Estado</label>
+            <input asp-for="EstadoCategoria" class="form-control" />
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
